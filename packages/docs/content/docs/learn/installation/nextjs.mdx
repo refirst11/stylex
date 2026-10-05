@@ -106,11 +106,9 @@ configuration to speed up CSS generation.
 
 ## Using StyleX from a dependency
 
-The setup above compiles your own files. If you install a package that ships
-StyleX source (`stylex.create` calls that haven't been compiled), add it in two
-places.
+If you install a package that ships uncompiled StyleX, add it in two places.
 
-1. Add the package to `transpilePackages` so Babel compiles it:
+1. `transpilePackages`, so Babel compiles its JavaScript:
 
 ```js title="next.config.js"
 module.exports = {
@@ -118,8 +116,7 @@ module.exports = {
 };
 ```
 
-2. Add the package to `include` in your PostCSS config so its styles end up in
-   the CSS file:
+2. `include`, so its styles are added to your CSS:
 
 ```js title="postcss.config.js"
 include: [
@@ -129,16 +126,13 @@ include: [
 ],
 ```
 
-If that package depends on other StyleX packages, add those to both lists as
-well. Neither option follows dependencies for you.
-
-With pnpm, a package that isn't a direct dependency may not be at
-`node_modules/<name>`. Point `include` at its actual location.
+If that package uses other StyleX packages, add them to both lists too.
 
 If you miss a step:
 
-- Missing from `transpilePackages`: the build fails with
-  `Unexpected 'stylex.create' call at runtime`.
+- Missing from `transpilePackages`: you get
+  `Unexpected 'stylex.create' call at runtime`, either during `next build` or
+  when the page is requested.
 - Missing from `include`: elements get class names but no styles, and no error
   is shown.
 
